@@ -37,6 +37,63 @@ let handleprofile=(event)=>{
 
 }
 
+
+let validation=()=>{
+
+if(
+firstname.trim()==="" ||
+middlename.trim()==="" ||
+lastname.trim()==="" ||
+email.trim()==="" ||
+contactno==="" ||
+gender==="Select Gender" ||
+dob==="" ||
+education.trim()==="" ||
+caddress.trim()==="" ||
+paddress.trim()==="" ||
+adharno==="" ||
+panno.trim()==="" ||
+exp==="" ||
+salary==="" ||
+status==="Select Status" ||
+designation.trim()==="" ||
+department.trim()==="" ||
+reportingmanager.trim()==="" ||
+worklocation.trim()==="" ||
+joiningdate==="" ||
+profile===""
+
+){
+alert("All fields are mandatory. Please fill all fields.");
+return false;
+}
+
+if(!/^[A-Za-z]+$/.test(firstname) || !/^[A-Za-z]+$/.test(lastname) ||!/^[A-Za-z]+$/.test(middlename)){
+    alert("Firstname Lastname and Middlename must contain Characters only.")
+    return false;
+}
+if(!/^[0-9]{10}$/.test(contactno)){
+    alert("Please enter valid contact no");
+    return false;
+}
+if(!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)){
+    alert("Please enter valid email");
+    return false;
+}
+if(!/^[0-9]{12}$/.test(adharno)){
+    alert("Please enter valid Adhar Number.");
+    return false;
+}
+if(!/^[0-9a-zA-Z]{10}$/.test(panno)){
+    alert("Please enter valid Pan number.");
+    return false;
+}
+return true;
+
+}
+
+
+
 let addEmp=(event)=>{
 event.preventDefault();
 let employee={firstname,middlename,lastname,dob,
@@ -44,6 +101,7 @@ let employee={firstname,middlename,lastname,dob,
     email,exp,salary,status,designation,department,reportingmanager,
     worklocation,joiningdate};
 
+    if(validation()){
     axios.post("http://localhost:8080/addemp",employee)
     .then((response)=>{
         if(response.data=="Employee added successfully"){
@@ -53,6 +111,8 @@ let employee={firstname,middlename,lastname,dob,
     .catch((error)=>{
         alert("Failed to add Employee");
     })
+}
+
 }
 
   return (
@@ -84,7 +144,7 @@ let employee={firstname,middlename,lastname,dob,
 
 <div className="col-md-6 mb-3">
 <label>Email</label>
-<input type="email" onChange={(e)=>{setEmail(e.target.value);}} className="form-control"/>
+<input type="text" onChange={(e)=>{setEmail(e.target.value);}} className="form-control"/>
 </div>
 
 <div className="col-md-6 mb-3">
