@@ -31,7 +31,7 @@ export default function AddEmployee() {
 let handleprofile=(event)=>{
     let file=event.target.files[0];
     console.log(file);
-    let filepath=`./img/${file.name}`;
+    let filepath=`/img/${file.name}`;
     console.log(filepath);
     setProfile(filepath);
 
@@ -96,7 +96,7 @@ return true;
 
 let addEmp=(event)=>{
 event.preventDefault();
-let employee={firstname,middlename,lastname,dob,
+let employee={firstname,middlename,lastname,dob,profile,
     gender,caddress,paddress,adharno,panno,education,contactno,
     email,exp,salary,status,designation,department,reportingmanager,
     worklocation,joiningdate};
