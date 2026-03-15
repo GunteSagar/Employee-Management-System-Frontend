@@ -12,7 +12,7 @@ export default function AddEmployee() {
     let [contactno,setContactno]=useState(0);
     let [gender,setGender]=useState("");
     let [dob,setDob]=useState("");
-    let [education,setEducation]=useState("");
+    let [edu,setEducation]=useState("");
     let [caddress,setCaddress]=useState("");
     let [paddress,setPaddress]=useState("");
     let [adharno,setAdharno]=useState(0);
@@ -48,7 +48,7 @@ email.trim()==="" ||
 contactno==="" ||
 gender==="Select Gender" ||
 dob==="" ||
-education.trim()==="" ||
+edu.trim()==="" ||
 caddress.trim()==="" ||
 paddress.trim()==="" ||
 adharno==="" ||
@@ -97,7 +97,7 @@ return true;
 let addEmp=(event)=>{
 event.preventDefault();
 let employee={firstname,middlename,lastname,dob,profile,
-    gender,caddress,paddress,adharno,panno,education,contactno,
+    gender,caddress,paddress,adharno,panno,edu,contactno,
     email,exp,salary,status,designation,department,reportingmanager,
     worklocation,joiningdate};
 
