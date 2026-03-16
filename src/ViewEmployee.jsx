@@ -3,10 +3,10 @@ import {useState} from "react";
 import axios from "axios";
 import {useEffect} from "react";
 export default function ViewEmployee() {
-  let [employees, setEmployees] = useState([]);
-  let [showform, setShoform] = useState(false);
+    let [employees, setEmployees] = useState([]);
+    let [showform, setShoform] = useState(false);
   
-   let [profile,setProfile]=useState("");
+    let [profile,setProfile]=useState("");
       let [firstname,setFirstname]=useState("");
       let [middlename,setMiddlename]=useState("");
       let [lastname,setLastname]=useState("");
@@ -28,6 +28,13 @@ export default function ViewEmployee() {
       let [worklocation,setWorklocation]=useState("");
       let [joiningdate,setJoiningdate]=useState("");
       let [empid,setEmpid]=useState("");
+      let [reload,setreload]=useState(false);
+
+       // variable for searching operation
+    
+    let[searchby,setsearchby]=useState("");
+    let[keyword,setkeyword]=useState("");
+    let [searchResult,setsearchResult]=useState([]);
      
 
   useEffect(() => {
@@ -39,7 +46,7 @@ export default function ViewEmployee() {
       .catch(() => {
         alert("Error in Fetching");
       });
-  }, []);
+  }, [reload]);
 
   let deleteemployee = (empid) => {
     axios
@@ -47,6 +54,7 @@ export default function ViewEmployee() {
       .then((response) => {
         if (response.data == "Employee deleted successfully") {
           alert(response.data);
+          setreload(!reload);
         }
       })
       .catch((error) => {
@@ -78,6 +86,8 @@ export default function ViewEmployee() {
     setJoiningdate(emp.joiningdate);
     setEmpid(emp.empid);
     setProfile(emp.profile);
+
+   
   };
 
   let handleprofile=(event)=>{
@@ -99,16 +109,68 @@ export default function ViewEmployee() {
     .then((response)=>{
       if(response.data=="Record updated successfully"){
         alert(response.data);
+        setreload(!reload);
       }
     })
     .catch((error)=>{
       alert("Error in Updating the Employee info");
     })
   }
+
+  let searchemployee=()=>{
+    let url;
+    if(searchby=="firstname"){
+      url=`http://localhost:8080/findbyfirstname?firstname=${keyword}`
+      alert(url);
+    }
+    else if(searchby=="lastname"){
+      url=`http://localhost:8080/findbylastname?lastname=${keyword}`
+      
+    }
+    else if(searchby=="department"){
+      url=`http://localhost:8080/findbydept?department=${keyword}`
+    }
+    else if(searchby=="designation"){
+      url=`http://localhost:8080/findbydesignation?designation=${keyword}`
+    }
+    else if(searchby=="empid"){
+      url=`http://localhost:8080findbyempid?id=${empid}`
+    }
+    else{
+      alert("Please select valid search criteria....")
+    }
+
+    axios.get(url)
+    .then((response)=>{
+      if(response.data.length==0){
+        alert(`No matching record found for given ${keyword} now we are showing result by empid`);
+      }
+      else{
+      setsearchResult(response.data);
+      console.log(response.data);
+      }
+    })
+    .catch(()=>{})
+  }
   return (
-    <div>
+    <div className="maindiv">
+      <div className="d-flex gap-2">
+            Select searchby
+            <select onChange={(event)=>{setsearchby(event.target.value)}} >
+              <option >Search Employee</option>
+              <option value="firstname">By Firstname</option>
+              <option value="lastname">By Lastname</option>
+              <option value="department">By department</option>
+              <option value="designation">By designation</option>
+              <option value="empid">By Empid</option>
+            </select>
+            {searchby &&   <div> <input type="text" onChange={(event)=>{setkeyword(event.target.value)}} placeholder={`Enter ${searchby}`} /> 
+            <button onClick={searchemployee}>Search</button></div>}
+          </div>
       <div className="container-fluid">
         <div className="row">
+
+          
           {employees.map((emp) => (
             <div class="card col-4 m-2" style={{width: "18rem"}}>
               <img src={emp.profile} class="card-img-top" alt="..." />
@@ -125,19 +187,13 @@ export default function ViewEmployee() {
 </div>
              
                 <div className="d-flex gap-2">
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => {
-                      deleteemployee(emp.empid);
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <button className="btn btn-warning"  onClick={() => {  deleteemployee(emp.empid); }} >  Delete </button>
                   <button  className="btn btn-danger"  onClick={() => {  readytoupdate(emp);  }} >  Update  </button>
                 </div>
               </div>
             </div>
           ))}
+
         </div>
       </div>
 
