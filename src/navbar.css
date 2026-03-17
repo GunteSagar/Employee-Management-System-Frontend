@@ -1,0 +1,16 @@
+.navbar .navbar-nav .nav-item .nav-link{
+    color:white;
+    font-size:20px;
+}
+.navbar .navbar-brand{
+    color:white;
+    font-size:30px;
+}
+.navbar .navbar-nav .nav-item .nav-link:hover{
+    /* color:rgb(4, 133, 21); */
+    font-size:22px;
+    color:rgb(113, 43, 226);
+    text-shadow: 2px 2px 5px gray;
+
+    
+}

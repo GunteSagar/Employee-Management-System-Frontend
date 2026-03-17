@@ -171,7 +171,7 @@ export default function ViewEmployee() {
         <div className="row">
 
           
-          {employees.map((emp) => (
+          {(searchResult.length>0?searchResult:employees).map((emp) => (
             <div class="card col-4 m-2" style={{width: "18rem"}}>
               <img src={emp.profile} class="card-img-top" alt="..." />
               <div class="card-body">
